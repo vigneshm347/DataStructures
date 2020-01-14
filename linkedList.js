@@ -32,12 +32,65 @@ class LinkedList {
     this.length++;
     return this;
     }
+
+    insert(index, value) {
+      // if index is larger than length of linked list
+      if(index >= this.length) {
+        return this.append(value);
+      } 
+
+      const newNode = new NewNode(value);
+      const leader = this.traverseToIndex(index-1);
+      const holdingPointer = leader.next;
+      leader.next = newNode;
+      newNode.next = holdingPointer; 
+      this.length++;
+    }
+
+    remove(index) {
+      const leader = this.traverseToIndex(index-1);
+      const unWantedNode = leader.next;
+      leader.next = unWantedNode.next;
+      this.length--;
+
+    }
+
+    traverseToIndex(index) {
+      let counter = 0;
+      let currentNode = this.head;
+      while(counter !== index) {
+        currentNode = currentNode.next;
+        counter++; 
+      }
+      return currentNode;
+    }
+
+    printList() {
+      const array = [];
+      let currentNode = this.head;
+      let counter = 0;
+      let list = '';
+      while(currentNode != null) {
+        array.push({position: counter,value: currentNode.value});
+        currentNode = currentNode.next;
+        counter++;
+      }
+      array.map((node) => {
+          list = list + node.value + '-->';
+       
+      })
+      return list;
+    }
 }
 
-const myLinkedList = new LinkedList(10);
-const myNewNode = new NewNode(10);
+const myLinkedList = new LinkedList(1);
+myLinkedList.append(3);
 myLinkedList.append(5);
-myLinkedList.prepend(1);
-myLinkedList.append(16);
-myLinkedList.prepend(0.5);
-console.log(myLinkedList);
+myLinkedList.append(7);
+myLinkedList.insert(1, 2);
+myLinkedList.insert(3, 4);
+myLinkedList.insert(5, 6);
+myLinkedList.remove(5)
+myLinkedList.remove(1)
+myLinkedList.remove(3)
+console.log(myLinkedList.printList());
